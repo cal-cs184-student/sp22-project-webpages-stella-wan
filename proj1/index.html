@@ -2,6 +2,119 @@
 	<head>
 	</head>
 	<body>
-		Project 1 here
+		<h1>Project 1</h1>
+		<h2>Task 1</h2>
+		<p>
+			We rasterized the triangle by first finding the bounding box, and then checking the center of every pixel to 
+			see if it is within the triangle using the point in triangle test, and if it lies in the triangle, then we fill 
+			in the pixel with the input color. Specifically, we found the x range of the bounding box by taking the floor 
+			of the smallest x and taking the ceiling of the largest x of the three points in the triangle, and we found the 
+			y range of the bounding box using the same method. We wrote an additional <code>point_in_triangle_test()</code> 
+			function that checks for each line of the triangle, if the line test for the vertex that is not on the line and 
+			the line test for the pixel center are either both positive or both negative. If that is the case for all three 
+			lines, then the point lies within the triangle. Since our algorithm is exactly the same as one that checks each 
+			sample within the bounding box of the triangle, it is no worse than that.
+		</p>
+		<img src="task_1.png" width="800" height="600">
+
+		<h2>Task 2</h2>
+		<p>
+			Supersampling is useful because it helps remove jaggies and makes the edges of the triangles appear smoother.
+			Our algorithm involves using <code>sample_buffer</code>, a list of colors with size
+			<code>width * height * sample_rate</code>, to represent the color of every sample in the image. When drawing
+			a triangle, we check each sample to determine whether it lies inside or outside the triangle; if the point is
+			inside the triangle, we color the sample appropriately. We had to modify the <code>resolve_to_framebuffer()</code>
+			function to calculate the color of each pixel by averaging the colors of the samples within that pixel. We
+			also had to modify the <code>set_sample_rate()</code> and <code>set_framebuffer_target()</code> functions to
+			set the <code>sample_buffer</code> size to <code>width * height * sample_rate</code>, and we
+			changed the <code>fill_pixel()</code> function to set the color of all samples within a pixel to the given color.
+		</p>
+		<img src="task2_1.png" width="800" height="600">
+		<img src="task2_2.png" width="800" height="600">
+		<img src="task2_3.png" width="800" height="600">
+
+		<h2>Task 3</h2>
+		<p>
+			The cubeman is jumping on one leg with hands in the air.
+		</p>
+		<img src="task_3.png" width="800" height="600">
+
+		<h2>Task 4</h2>
+		<p>
+			Barycentric coordinates are a way to describe each point in a triangle as a weighted sum of the triangle's vertices.
+			In the image below, every point in the triangle is colored based on its barycentric coordinates. The vertices of the
+			triangle are red, green, and blue, and each point in the triangle is described by a linear combination of the three
+			vertices.
+		</p>
+		<img src="task4_1.png" width="800" height="600">
+		<p>
+			A screenshot of test7.png is below.
+		</p>
+		<img src="task4_2.png" width="800" height="600">
+
+		<h2>Task 5</h2>
+		<p>
+			When we want to find the texture value at a specific location on the texture image, we use pixel sampling, which is a 
+			method that samples texture values using nearby pixels on the texture. For barycentric texture mapping, we found the
+			barycentric coordinates of each point on the triangle, calculated the corresponding coordinates on the texture image,
+			and then used the value from the texture using either nearest sampling or bilinear sampling. Nearest sampling just
+			rounds the texture coordinate to the nearest pixel and uses the value at that texture; bilinear sampling looks at the
+			four closest pixels and interpolates a value that is a weighted sum of the four corners. For the images we selected, 
+			when zoomed in, bilinear sampling appears more blurred compared to nearest sampling, but the grid lines are more 
+			continuous. There should be a large difference between the two in locations with a lot of color contrasts. This is 
+			because the nearest sampling only looks at one pixel, whereas bilinear sampling takes a weighted average of four
+			nearest pixels, so if at least two pixels out of the four are very different, it would look very diffrent from nearest 
+			sampling.
+		</p>
+		<p>
+			Nearest sampling, 1 sample per pixel:
+		</p>
+		<img src="task5_1.png" width="800" height="600" alt="nearest sampling, 1 sample per pixel">
+		<p>
+			Bilinear sampling, 1 sample per pixel:
+		</p>
+		<img src="task5_2.png" width="800" height="600" alt="bilinear sampling, 1 sample per pixel">
+		<p>
+			Nearest sampling, 16 samples per pixel:
+		</p>
+		<img src="task5_3.png" width="800" height="600" alt="nearest sampling, 16 samples per pixel">
+		<p>
+			Bilinear sampling, 16 samples per pixel:
+		</p>
+		<img src="task5_4.png" width="800" height="600" alt="bilinear sampling, 16 samples per pixel">
+
+		<h2>Task 6</h2>
+		<p>
+			Level sampling is a form of anti-aliasing that involves downsampling the texture image to a lower
+			resolution before retrieving the colors from the texture pixel values. This has the effect of making
+			the texture image smoother in places where a pixel in the image corresponds to multiple texels on
+			the texture image. We implemented level sampling by calculating the difference vectors corresponding
+			to each pixel location. The norm of these difference vectors help us to determine which level to use.
+			Using the nearest level sampling method, we simply round the level to the nearest integer; for the linear
+			level sampling method, we assign the pixel a color that is between the colors given by the two nearest levels.
+			<br>
+			Level sampling requires more memory than pixel sampling because we have to store the texture image at different resolutions.
+			Number of samples per pixel takes up more memory and is slower because we are sampling more times. However,
+			supersampling can be used for all shapes, while pixel sampling and level sampling only apply to texture mapping. 
+			Level sampling has more anti-aliasing power than pixel sampling when one pixel on the image corresponds to multiple
+			texels on the texture image, whereas pixel sampling has more anti-aliasing power when one pixel on the image 
+			lies between pixels on the texture image.
+		</p>
+		<p>
+			Level zero, nearest pixel sampling:
+		</p>
+		<img src="task6_1.png" width="800" height="600" alt="Level zero, nearest pixel sampling">
+		<p>
+			Level zero, bilinear pixel sampling:
+		</p>
+		<img src="task6_2.png" width="800" height="600" alt="Level zero, bilinear pixel sampling">
+		<p>
+			Nearest level, nearest pixel sampling:
+		</p>
+		<img src="task6_3.png" width="800" height="600" alt="Nearest level, nearest pixel sampling">
+		<p>
+			Nearest level, bilinear pixel sampling:
+		</p>
+		<img src="task6_4.png" width="800" height="600" alt="Nearest level, bilinear pixel sampling">
 	</body>
 </html>
