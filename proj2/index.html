@@ -2,6 +2,136 @@
 	<head>
 	</head>
 	<body>
-		Project 2 here
+		<h1>Project 2</h1>
+
+		<h2>Task 1</h2>
+		<p>
+			De Casteljau's algorithm helps us find a single control point that lies on the Bezier curve. In 
+			task 1, we implemented one iteration of the algorithm: given n control points, we will calculate
+			the n-1 intermediate points by interpolating the two neighboring points out of the original n control
+			points (using the input parameter <code>t</code>).
+		</p>
+		<br>
+		<img src="task1_1.png" width="1072" height="780">
+		<img src="task1_2.png" width="1072" height="780">
+		<img src="task1_3.png" width="1072" height="780">
+		<img src="task1_4.png" width="1072" height="780">
+		<img src="task1_5.png" width="1072" height="780">
+		<img src="task1_6.png" width="1072" height="780">
+		<br>
+		A different Bezier curve:
+		<br>
+		<img src="task1_7.png" width="1072" height="780" alt="a different bezier curve">
+
+		<h2>Task 2</h2>
+		<p>
+			Applying the deCasteljau algorithm to Bezier surfaces involves invoking the 1D deCasteljau algorithm for each
+			row of control points, and then applying the 1D algorithm again for the interpolated points of each row to reach
+			a final point on the Bezier surface. Each point is parameterized by two variables, u and v, where u is the parameter
+			used when applying the algorithm to each row of control points while v is the parameter used to interpolate the final
+			point on the surface.
+		</p>
+		<br>
+		<img src="task_2.png" width="1072" height="780">
+		
+		<h2>Task 3</h2>
+		<p>
+			For a given point, we traversed each half-edge connected to that vertex (via repeated calls to
+			<code>next()</code> and <code>twin()</code>). For each face that surrounds the vertex, we find the three vertices
+			of that face and then calculate two vectors corresponding to two edges of the triangle. We then take the cross
+			product of the two vectors to get a normal vector, scaled by twice the area of the triangle. Finally, we add all
+			of these cross products for each face and then normalize the vector to get the area-weight.
+		</p>
+		<br>
+		Default flat shading:
+		<br>
+		<img src="task3_1.png" width="1072" height="780">
+		<br>
+		Phong shading:
+		<br>
+		<img src="task3_2.png" width="1072" height="780">
+
+		<h2>Task 4</h2>
+		<p>
+			We first retrieved the original halfedges, vertices, and faces. Since we do not need to create any new elements, we
+			assigned the new halfedges (namely <code>ad</code> and <code>da</code> according to the image on the spec) to be the
+			halfedges of the original edge that we are trying to flip from (namely <code>bc</code> and <code>cb</code>), and we
+			assigned the new faces <code>abd</code> and <code>adc</code> to be the old faces <code>abc</code> and <code>cbd</code>.
+			However, after doing this, we need to reassign all of the <code>next()</code> edges for all of the halfedges (if they
+			have changed after the flip). We also need to reassign all of the <code>face()</code> of the halfedges. In addition, we
+			have to change the <code>halfedge()</code> of the new faces <code>abd</code> and <code>adc</code>, and the halfedges of
+			the vertices. In addition, we have to assign vertex a and d to be the <code>vertex()</code> field of the halfedges
+			<code>ad</code> and <code>da</code>. We did not encounter any bugs here until when we finished implementing task 6, add
+			we soon realized that it was because we forgot to reassign the <code>halfedge()</code> field of the new faces. Prior to
+			implementing this, we wrote down what each field of each of the halfedge, vertex, edge, face structures look like before
+			and after the edge flip to figure out what we need to reassign. That strategy helped save a lot of debugging pain.
+		</p>
+		<br>
+		Before edge flipping:
+		<br>
+		<img src="task4_1.png" width="1072" height="780">
+		<br>
+		After edge flipping:
+		<br>
+		<img src="task4_2.png" width="1072" height="780">
+		
+
+		<h2>Task 5</h2>
+		<p>
+			We implemented edge split by creating one new vertex, six new halfedges, two new faces, and three new edges. Once
+			the new objects were created, we reassigned each pointer appropriately. We wrote down the changes that need to be
+			made to every vertex, edge, halfedge, and face before writing any code to make the process smoother. We also gave
+			each vertex a name (a, b, c, d, and m) and named each halfedge according to its two endpoints, making the variable
+			names easy to understand. As a result, we were able to implement this task easily without need for debugging.
+		</p>
+		<br>
+		Before edge splitting:
+		<br>
+		<img src="task5_1.png" width="1072" height="780">
+		<br>
+		After edge splitting:
+		<br>
+		<img src="task5_2.png" width="1072" height="780">
+		<br>
+		Before edge splitting and flipping:
+		<br>
+		<img src="task5_1.png" width="1072" height="780">
+		<br>
+		After edge splitting and flipping:
+		<br>
+		<img src="task5_3.png" width="1072" height="780">
+
+
+		<h2>Task 6</h2>
+		<p>
+			To implement loop subdivision, we first calculated the new positions for all existing vertices and stored
+			them in <code>Vertex::newPosition</code> as well as setting <code>Vertex::isNew</code> to <code>false</code>.
+			Next, we computed the vertex positions for the new vertices, which we stored in <code>Edge::newPosition</code>,
+			and then split each edge and assigned the newly created vertex their new positions. Then, we flipped each edge
+			where one of its endpoints has <code>Edge::isNew</code> set to true while the other has it set to false. Finally,
+			we assigned the <code>Vertex::position</code> for each vertex to their <code>Vertex::newPosition</code> that we
+			computed earlier. We debugged our implementation by commenting out various parts of our implementation and testing
+			each part individually, where we uncovered some bugs with infinite loops when splitting edges and with forgetting to
+			reassign faces when flipping edges.
+		</p>
+		<br>
+		<img src="task6_1.png" width="1072" height="780">
+		<img src="task6_2.png" width="1072" height="780">
+		<img src="task6_3.png" width="1072" height="780">
+		<img src="task6_4.png" width="1072" height="780">
+		<img src="task6_5.png" width="1072" height="780">
+		<img src="task6_6.png" width="1072" height="780">
+		<br>
+		<p>
+			With each subdivision step, the sharp corners become more rounded out and the cube becomes smoother.
+			The cube becomes asymmetric because each cube face has an edge running diagonally in one direction, but
+			not the other. We can pre-process the cube by splitting the diagonal edge on each face of the cube first,
+			so that each cube face has two symmetric, diagonal edges running through it.
+		</p>
+		<img src="task6_7.png" width="1072" height="780">
+		<img src="task6_8.png" width="1072" height="780">
+		<img src="task6_9.png" width="1072" height="780">
+		<img src="task6_10.png" width="1072" height="780">
+		<img src="task6_11.png" width="1072" height="780">
 	</body>
 </html>
