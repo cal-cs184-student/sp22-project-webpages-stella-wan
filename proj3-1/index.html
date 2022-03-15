@@ -2,6 +2,150 @@
 	<head>
 	</head>
 	<body>
-		Project 3-1 here
+		<h1>Project 3-1</h1>
+
+		<h2>Part 1</h2>
+		<p>
+			For ray generation, and we wish to find the ray from the camera origin to a point on the
+			virtual camera sensor (which is defined to be the z = -1 plane) that corresponds to a
+			normalized (x, y) coordinate of an image. In order to do that, we first find the
+			<code>camera_x</code> and <code>camera_y</code>. Knowing the coordinates of the bottom
+			left corner and the top right corner of the virtual camera sensor, all we need to do is
+			scale the (x, y) coordinate in the image by the width and the height of the virtual 
+			camera sensor. Then, we can create a ray with origin at <code>pos</code> and direction
+			at (<code>camera_x</code>, <code>camera_y</code>, -1).
+		</p>
+		<p>
+			For ray-triangle intersection, we used the Möller Trumbore algorithm. We first found the time
+			<code>t</code> at which the ray intersects the plane that the triangle lies in, and then we
+			calculated the Barycentric coordinate of the point of intersection. If the three vertices of the 
+			triangle are defined to be <code>P_0</code>, <code>P_1</code>, <code>P_2</code> and the ray is
+			defined by origin <code>O</code> and a direction <code>D</code>. Let's define some variables here:
+			<code>E_1 = P_1 - P_0</code>, <code>E_2 = P_2 - P_0</code>, <code>S = O - P_0</code>, 
+			<code>S_1 = D x E_2</code>, <code>S_2 = S x E_1</code>. Time of intersection <code>t</code> is
+			given by <code>(S_2 * E_2) / (S_1 * E_1)</code>. <code>beta</code> of the Barycentric coordinates
+			is given by <code>(S_1 * S) / (S_1 * E_1)</code>. <code>gamma</code> of the Barycentric
+			coordinates is given by <code>(S_2 * D) / (S_1 * E_1)</code>. <code>alpha</code> is given by 
+			<code>1 - beta - gamma</code>. If one of the <code>alpha</code>, <code>beta</code>, and
+			<code>gamma</code> values is less than 0, then this point of intersection is outside the triangle,
+			which means that the triangle does not actually intersect with the ray. If the <code>t</code>
+			is smaller than the ray's <code>min_t</code> value of greater than the ray's <code>max_t</code>
+			value, then the ray also does not intersect the triangle. If the ray does intersect the triangle,
+			then we update the intersection's <code>t</code> value to be the <code>t</code> we found, and its 
+			normal <code>n</code> to be an interpolation of the normals at the vertices. We also update the ray's 
+			<code>max_t</code> value to be the intersection time as it is between the old <code>min_t</code> and 
+			<code>max_t</code>.
+		</p>
+		
+		<h2>Part 2</h2>
+		<p>
+			We constructed the BVH by recursively splitting the primitives into nodes until the number of
+			primitives within a node is at most <code>max_leaf_size</code>. In our <code>construct_bvh</code>
+			function, we first calculated the smallest bounding box that encloses all primitives given in
+			the function arguments. This was the bounding box for this particular <code>BVHNode</code>.
+			To determine which axis to split the box on, we simply used the axis along which the bounding
+			box was longest; this axis was likely the best axis along which to split the primitives, since
+			it allows the bounding box for each node to be roughly close to a cube (equal lengths in all axes).
+			We split the primitives by sorting the list of primitives by their centroids along this axis, and
+			then splitting the list in half. This ensures that we always get an even split of primitives in
+			the left and right children of our node, so our tree stays roughly balanced.
+		</p>
+		<p>
+			Below, we show renderings of two large files that rendered in a matter of seconds with BVH acceleration.
+		</p>
+		<img src="part2/part2_maxplanck.png">
+		<img src="part2/part2_lucy.png">
+		<p>
+			Rendering <i>cow.dae</i> using BVH acceleration took 7.56 seconds. Rendering the same scene without
+			BVH acceleration took 58.6 seconds. As another example, the file <i>beetle.dae</i> took 100.3 seconds
+			without BVH acceleration.
+		</p>
+		
+
+		<h2>Part 3</h2>
+
+		<h2>Part 4</h2>
+		<p>
+			Our <code>at_least_one_bounce_radiance</code> function was called recursively each time a
+			ray intersected an object. The function would call <code>one_bounce_radiance</code> to compute
+			the direct illumination at that point, and then samples a random direction for the next bounce.
+			The recursion continues until the ray does not intersect any other object, if the maximum ray
+			depth is reached, or by chance due to Russian Roulette termination (each ray bounce terminates
+			with probability 0.3 in our implementation). We use the <code>Ray::depth</code> field to keep
+			track of the number of bounces; the first ray from the camera starts at <code>max_ray_depth</code>
+			and is decremented by 1 each time we bounce a light ray off an object.
+		</p>
+		<p>
+			Some examples of images rendered with global illumination are below. All of these images use 1024
+			samples per pixel. We can notice that we can see more light in places where the light source is
+			not directly hitting the object; this is from indirect illumination.
+		</p>
+		<img src="part4/part4_bench.png">
+		<img src="part4/part4_spheres.png">
+		<img src="part4/part4_walle.png">
+		<p>
+			The following images show the <i>CBbunny.dae</i> scene. The first image shows only direct illumination
+			(light from a light source bouncing directly off an object), while the second scene shows only indirect
+			illumination (light that is bounced off of non-light sources).
+		</p>
+		<img src="part4/part4_direct_only.png">
+		<img src="part4/part4_indirect_only.png">
+		<p>
+			The next images show the <i>CBbunny.dae</i> scene with <code>max_ray_depth</code> set to various levels.
+			As we increase the ray depth, the image appears brighter because there is more light bouncing around
+			the scene. The effect diminishes as we keep increasing the maximum ray depth because light diminishes in
+			intensity after repeatedly bouncing off of surfaces. Additionally, in the last image, since we are
+			using Russian roulette to terminate light rays, there are likely no rays that actually reach the maximum
+			ray depth of 100.
+		</p>
+		<p>Maximum ray depth = 0:</p>
+		<img src="part4/part4_m0.png">
+		<p>Maximum ray depth = 1:</p>
+		<img src="part4/part4_m1.png">
+		<p>Maximum ray depth = 2:</p>
+		<img src="part4/part4_m2.png">
+		<p>Maximum ray depth = 3:</p>
+		<img src="part4/part4_m3.png">
+		<p>Maximum ray depth = 100:</p>
+		<img src="part4/part4_m100.png">
+		<p>
+			In the next few images, we rendered the <i>CBspheres.dae</i> scene with various sample-per-pixel rates.
+			As we increase the sample rate, the image becomes less grainy and more clear, since there is less variance
+			in the colors when we increase the number of samples per pixel.
+		</p>
+		<p>1 sample per pixel:</p>
+		<img src="part4/part4_spheres_s1.png">
+		<p>2 samples per pixel:</p>
+		<img src="part4/part4_spheres_s2.png">
+		<p>4 samples per pixel:</p>
+		<img src="part4/part4_spheres_s4.png">
+		<p>8 samples per pixel:</p>
+		<img src="part4/part4_spheres_s8.png">
+		<p>16 samples per pixel:</p>
+		<img src="part4/part4_spheres_s16.png">
+		<p>64 samples per pixel:</p>
+		<img src="part4/part4_spheres_s64.png">
+		<p>1024 samples per pixel:</p>
+		<img src="part4/part4_spheres_s1024.png">
+
+		<h2>Part 5</h2>
+		<p>
+			In our implementation of adaptive sampling, we stored variables <code>I</code> (a value that measures whether
+			or not the color of the pixel has converged), <code>s1</code> (the sum of the illumination
+			of the colors), <code>s2</code> (the sum of the color's illumination squared), <code>mu</code> (the average
+			illumination of all the samples so far), <code>sigma</code> (the standard deviation of the illumination of all
+			the samples so far), and <code>total_samples</code> (which is the total number of samples we have taken so far).
+			We have a large do-while loop which terminates only when the variable <code>I</code> is smaller or equal to
+			<code>maxTolerance</code> multiplied by <code>mu</code> or if the total number of samples collected <code>total_samples</code>
+			is greater or equal to <code>ns_aa</code> which is the maximum number of samples we should collect in a pixel in total.
+			Inside the do-while loop, we have a for loop that samples rays <code>samplesPerBatch</code> number of times. In each
+			iteration of the for loop, we increment <code>s1</code> and <code>s2</code> accordingly (<code>s1</code> is
+			incremented by the illumination of the color sampled, and <code>s2</code> is incremented by the square of the
+			illumination of the color sampled). After collecting all the samples in a batch, we update the <code>I</code>
+			value of all the samples collected thus far to be 1.96 * <code>sigma</code> / <code>sqrt(total_samples)</code>
+			where <code>mu</code> is given by <code>s1</code> / <code>total_samples</code> and <code>sigma</code> is given by 
+			<code>sqrt((s2 - s1 * s1 / total_samples) / (total_samples - 1))</code>. We repeat this until the color converges.
+		</p>
+
 	</body>
 </html>
