@@ -11,32 +11,32 @@
 			normalized (x, y) coordinate of an image. In order to do that, we first find the
 			<code>camera_x</code> and <code>camera_y</code>. Knowing the coordinates of the bottom
 			left corner and the top right corner of the virtual camera sensor, all we need to do is
-			scale the (x, y) coordinate in the image by the width and the height of the virtual 
+			scale the (x, y) coordinate in the image by the width and the height of the virtual
 			camera sensor. Then, we can create a ray with origin at <code>pos</code> and direction
 			at (<code>camera_x</code>, <code>camera_y</code>, -1).
 		</p>
 		<p>
 			For ray-triangle intersection, we used the Möller Trumbore algorithm. We first found the time
 			<code>t</code> at which the ray intersects the plane that the triangle lies in, and then we
-			calculated the Barycentric coordinate of the point of intersection. If the three vertices of the 
+			calculated the Barycentric coordinate of the point of intersection. If the three vertices of the
 			triangle are defined to be <code>P_0</code>, <code>P_1</code>, <code>P_2</code> and the ray is
 			defined by origin <code>O</code> and a direction <code>D</code>. Let's define some variables here:
-			<code>E_1 = P_1 - P_0</code>, <code>E_2 = P_2 - P_0</code>, <code>S = O - P_0</code>, 
+			<code>E_1 = P_1 - P_0</code>, <code>E_2 = P_2 - P_0</code>, <code>S = O - P_0</code>,
 			<code>S_1 = D x E_2</code>, <code>S_2 = S x E_1</code>. Time of intersection <code>t</code> is
 			given by <code>(S_2 * E_2) / (S_1 * E_1)</code>. <code>beta</code> of the Barycentric coordinates
 			is given by <code>(S_1 * S) / (S_1 * E_1)</code>. <code>gamma</code> of the Barycentric
-			coordinates is given by <code>(S_2 * D) / (S_1 * E_1)</code>. <code>alpha</code> is given by 
+			coordinates is given by <code>(S_2 * D) / (S_1 * E_1)</code>. <code>alpha</code> is given by
 			<code>1 - beta - gamma</code>. If one of the <code>alpha</code>, <code>beta</code>, and
 			<code>gamma</code> values is less than 0, then this point of intersection is outside the triangle,
 			which means that the triangle does not actually intersect with the ray. If the <code>t</code>
 			is smaller than the ray's <code>min_t</code> value of greater than the ray's <code>max_t</code>
 			value, then the ray also does not intersect the triangle. If the ray does intersect the triangle,
-			then we update the intersection's <code>t</code> value to be the <code>t</code> we found, and its 
-			normal <code>n</code> to be an interpolation of the normals at the vertices. We also update the ray's 
-			<code>max_t</code> value to be the intersection time as it is between the old <code>min_t</code> and 
+			then we update the intersection's <code>t</code> value to be the <code>t</code> we found, and its
+			normal <code>n</code> to be an interpolation of the normals at the vertices. We also update the ray's
+			<code>max_t</code> value to be the intersection time as it is between the old <code>min_t</code> and
 			<code>max_t</code>.
 		</p>
-		
+
 		<h2>Part 2</h2>
 		<p>
 			We constructed the BVH by recursively splitting the primitives into nodes until the number of
@@ -51,16 +51,20 @@
 			the left and right children of our node, so our tree stays roughly balanced.
 		</p>
 		<p>
-			Below, we show renderings of two large files that rendered in a matter of seconds with BVH acceleration.
+			Below, we show renderings of four large files that rendered in a matter of seconds with BVH acceleration.
 		</p>
 		<img src="part2/part2_maxplanck.png">
 		<img src="part2/part2_lucy.png">
+		<img src="part2/part2_beast.png">
+		<img src="part2/part2_dragon.png">
 		<p>
-			Rendering <i>cow.dae</i> using BVH acceleration took 7.56 seconds. Rendering the same scene without
+			Rendering <i>cow.dae</i> using BVH acceleration took 0.189 seconds. Rendering the same scene without
 			BVH acceleration took 58.6 seconds. As another example, the file <i>beetle.dae</i> took 100.3 seconds
-			without BVH acceleration.
+			without BVH acceleration, while it took only 0.195 seconds with BVH. The BVH data structure drastically
+			speeds up the rendering process, since we can now check for ray intersections in O(log n) time instead
+			of O(n) time.
 		</p>
-		
+
 
 		<h2>Part 3</h2>
 
@@ -143,7 +147,7 @@
 			incremented by the illumination of the color sampled, and <code>s2</code> is incremented by the square of the
 			illumination of the color sampled). After collecting all the samples in a batch, we update the <code>I</code>
 			value of all the samples collected thus far to be 1.96 * <code>sigma</code> / <code>sqrt(total_samples)</code>
-			where <code>mu</code> is given by <code>s1</code> / <code>total_samples</code> and <code>sigma</code> is given by 
+			where <code>mu</code> is given by <code>s1</code> / <code>total_samples</code> and <code>sigma</code> is given by
 			<code>sqrt((s2 - s1 * s1 / total_samples) / (total_samples - 1))</code>. We repeat this until the color converges.
 		</p>
 
