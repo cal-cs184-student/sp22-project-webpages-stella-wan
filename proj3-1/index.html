@@ -13,7 +13,12 @@
 			left corner and the top right corner of the virtual camera sensor, all we need to do is
 			scale the (x, y) coordinate in the image by the width and the height of the virtual
 			camera sensor. Then, we can create a ray with origin at <code>pos</code> and direction
-			at (<code>camera_x</code>, <code>camera_y</code>, -1).
+			at (<code>camera_x</code>, <code>camera_y</code>, -1). As part of the rendering pipeline,
+			we cast rays from the camera origin in order to find intersection points with the scene,
+			and from the colors at the intersection points, we can figure out the color to assign each pixel.
+			Ray and primitive intersection is used as part of the base case in bounding volume hierarchy's 
+			intersection function, and bounding volume hierarchy is used when finding intersection point
+			of the camera rays and the surfaces in the scene.
 		</p>
 		<p>
 			For ray-triangle intersection, we used the Möller Trumbore algorithm. We first found the time
@@ -36,6 +41,12 @@
 			<code>max_t</code> value to be the intersection time as it is between the old <code>min_t</code> and
 			<code>max_t</code>.
 		</p>
+		<p>
+			Below are images with normal shading for <i>banana.dae</i>, <i>CBempty.dae</i>, and <i>CBspheres.dae</i>:
+		</p>
+		<img src="part1/banana.png">
+		<img src="part1/CBempty.png">
+		<img src="part1/CBspheres.png">
 
 		<h2>Part 2</h2>
 		<p>
@@ -150,6 +161,13 @@
 			where <code>mu</code> is given by <code>s1</code> / <code>total_samples</code> and <code>sigma</code> is given by
 			<code>sqrt((s2 - s1 * s1 / total_samples) / (total_samples - 1))</code>. We repeat this until the color converges.
 		</p>
+		<p>
+			The following images show the <i>CBbunny.dae</i> scene rendered with 2048 samples per pixel. The image to its right is the 
+			sampling rate image which displays variation in sampling rate in different regions of the image. The <code>max_ray_depth</code>
+			is set to 5 and sample per area light is set to 1.
+		</p>
+		<img src="part5/bunny.png">
+		<img src="part5/bunny_rate.png">
 
 	</body>
 </html>
