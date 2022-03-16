@@ -78,7 +78,41 @@
 
 
 		<h2>Part 3</h2>
+		<p>
+			With Uniform Hemisphere Sampling, whenever a ray bounces off an object, we sample random directions
+			within the hemisphere to estimate the amount of light hitting that point. For each sample, we pick a
+			random direction, and then trace the ray along that direction until we intersect an object; we then
+			get the emission of that object to get the radiance (since we are only sampling for direct lighting).
+			With importance sampling, we are instead iterating through every light source in the scene and sampling
+			random directions from the point to the light source. This is a more efficient method of converging to the
+			desired amount of light, since with uniform hemisphere sampling, many of our samples will be wasted on
+			rays going in directions that do not intersect a light source at all.
+		</p>
 
+		<p>
+			The following images show light sampling with 1, 4, 16, 64 light rays and hemisphere sampling with 1, 4, 16, 
+			and 64 light rays. From the renderings at fewer number of light rays, we see that light sampling does a lot 
+			better at rendering the colors, whereas hemisphere sampling struggles to display any color of the scene.
+		</p>
+
+		<p>Light sampling 1 light ray:</p>
+		<img src="part3/bunny_1_lighting.png">
+		<p>Light sampling 4 light ray:</p>
+		<img src="part3/bunny_4_lighting.png">
+		<p>Light sampling 16 light ray:</p>
+		<img src="part3/bunny_16_lighting.png">
+		<p>Light sampling 64 light ray:</p>
+		<img src="part3/bunny_64_lighting.png">
+
+		<p>Hemisphere sampling 1 light ray:</p>
+		<img src="part3/bunny_1_hemisphere.png">
+		<p>Hemisphere sampling 4 light ray:</p>
+		<img src="part3/bunny_4_hemisphere.png">
+		<p>Hemisphere sampling 16 light ray:</p>
+		<img src="part3/bunny_16_hemisphere.png">
+		<p>Hemisphere sampling 64 light ray:</p>
+		<img src="part3/bunny_64_hemisphere.png">
+		
 		<h2>Part 4</h2>
 		<p>
 			Our <code>at_least_one_bounce_radiance</code> function was called recursively each time a
@@ -168,6 +202,11 @@
 		</p>
 		<img src="part5/bunny.png">
 		<img src="part5/bunny_rate.png">
+
+		<h2>Collaboration</h2>
+		We took a pair programming approach. One person writes the code while the other person discusses ideas and looks over the
+		programming process. We switched off writing code after every subpart. It worked fairly well as both of us get the same 
+		opportunity to learn all the material. We learned to keep using this approach for the future.
 
 	</body>
 </html>
