@@ -2,6 +2,54 @@
 	<head>
 	</head>
 	<body>
-		Project 3-2 here
+		<h1>Project 3-2</h1>
+
+		<h2>Part 1</h2>
+
+		<p>Below are images rendered at 64 samples per pixel and 4 samples per light.</p>
+
+		<p><code>max_ray_depth = 0</code>: </p>
+		<img src="part1/spheres_0.png">
+
+		<p><code>max_ray_depth = 1</code>: </p>
+		<img src="part1/spheres_1.png">
+
+		<p><code>max_ray_depth = 2</code>: </p>
+		<img src="part1/spheres_2.png">
+
+		<p><code>max_ray_depth = 3</code>: </p>
+		<img src="part1/spheres_3.png">
+
+		<p><code>max_ray_depth = 4</code>: </p>
+		<img src="part1/spheres_4.png">
+
+		<p><code>max_ray_depth = 5</code>: </p>
+		<img src="part1/spheres_5.png">
+
+		<p><code>max_ray_depth = 100</code>: </p>
+		<img src="part1/spheres_100.png">
+
+		<p>
+			As the bounce number increases, we see more reflection in the spheres. For example, at ray
+			depth 0, the scene is completely dark. At ray depth 1, the spheres are pretty much completely
+			dark. At higher ray depths, the reflection becomes more and more apparent and appears brighter.
+			We need more ray bounces in order to create the full effect of reflection.
+		</p>
+		
+
+		<h2>Part 4</h2>
+		<p>
+			A pinhole camera uses an infinitely small aperture with a sensor behind it, so light rays
+			can only enter the aperture at a single point. This causes all objects in a scene to be
+			in focus. A thin-lens camera model is a more realistic model that simulates an actual
+			camera lens. Instead of an infinitely-small aperture, we have a lens with a certain
+			aperture size and a certain focal length. We compute the value of each pixel by simulating
+			light rays refracted through a thin lens. Objects that are at the focal distance will
+			appear sharp, while objects that are significantly closer or farther will appear blurry.
+		</p>
+		<p>
+			Below are four images generated using different focus depths. All images were generated using
+			a camera lens radius of 0.2.
+		</p>
 	</body>
 </html>
