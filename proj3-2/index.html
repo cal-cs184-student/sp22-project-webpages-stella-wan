@@ -35,7 +35,7 @@
 			dark. At higher ray depths, the reflection becomes more and more apparent and appears brighter.
 			We need more ray bounces in order to create the full effect of reflection.
 		</p>
-		
+
 
 		<h2>Part 4</h2>
 		<p>
@@ -49,7 +49,35 @@
 		</p>
 		<p>
 			Below are four images generated using different focus depths. All images were generated using
-			a camera lens radius of 0.2.
+			a camera lens radius of 0.2, with 256 samples per pixel, 4 samples per light, and a maximum
+			ray depth of 7.
 		</p>
+		<p><code>focalDistance = 3.2</code></p>
+		<img src="part4/dragon_d3.2.png">
+
+		<p><code>focalDistance = 3.4</code></p>
+		<img src="part4/dragon_d3.4.png">
+
+		<p><code>focalDistance = 3.6</code></p>
+		<img src="part4/dragon_d3.6.png">
+
+		<p><code>focalDistance = 3.8</code></p>
+		<img src="part4/dragon_d3.8.png">
+
+		<p>
+			Below are four images generated using different aperture sizes (lens radii). The focal distance was
+			3.2 for all of these images.
+		</p>
+		<p><code>lensRadius = 0.0</code></p>
+		<img src="part4/dragon_b0.00.png">
+
+		<p><code>lensRadius = 0.05</code></p>
+		<img src="part4/dragon_b0.05.png">
+
+		<p><code>lensRadius = 0.1</code></p>
+		<img src="part4/dragon_b0.10.png">
+
+		<p><code>lensRadius = 0.2</code></p>
+		<img src="part4/dragon_b0.20.png">
 	</body>
 </html>
