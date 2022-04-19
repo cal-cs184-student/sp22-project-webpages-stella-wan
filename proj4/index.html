@@ -130,14 +130,33 @@
 		<img src="part5/custom_texture.png">
 
 		<p>
-			A screenshot of bump mapping shader on cloth on the sphere with height = 1.
+			Bump mapping and displacement mapping are both ways to make the cloth and sphere appear to have a bumpy surface.
+			The difference is that bump mapping changes the appearance of the surface, but does not change the underlying physics
+			(the positions of the vertices). Displacement mapping, on the other hand, does take the height map into account when
+			determining vertex positions, giving the cloth a more wavy appearance when draped on the sphere. Changing the coarseness
+			of the sphere mesh from 16 to 128 did not appear to have a significant effect on the resulting renders.
 		</p>
-		<img src="part5/bump.png">
+		<p>
+			A screenshot of bump mapping shader on cloth on the sphere with height = 1 and coarseness = 16.
+		</p>
+		<img src="part5/bump_16.png">
 
 		<p>
-			A screenshot of displacement mapping shader on cloth on the sphere with height = 0.05.
+			A screenshot of displacement mapping shader on cloth on the sphere with height = 0.05 and coarseness = 16.
 		</p>
-		<img src="part5/displacement.png">
+		<img src="part5/displacement_16.png">
+
+		<p>
+			A screenshot of bump mapping shader on cloth on the sphere with height = 1 and coarseness = 128.
+		</p>
+		<img src="part5/bump_128.png">
+
+		<p>
+			A screenshot of displacement mapping shader on cloth on the sphere with height = 0.05 and coarseness = 128.
+		</p>
+		<img src="part5/displacement_128.png">
+
+		
 
 		<p>
 			Below is an image of a mirror shader on the cloth on the sphere.
