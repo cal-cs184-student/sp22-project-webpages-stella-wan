@@ -2,6 +2,146 @@
 	<head>
 	</head>
 	<body>
-		Project 4 here
+		<h1>Project 4</h1>
+
+		<h2>Part 1</h2>
+		<p>Below image is pinned2.json redered with shearing, structural, and bending constraints.</p>
+		<img src="part_1/all_three.png">
+		
+		<p>Below image is pinned2.json redered with shearing constraint only.</p>
+		<img src="part_1/shearing_only.png">
+
+		<p>Below image is pinned2.json redered with no shearing constraint.</p>
+		<img src="part_1/no_shearing.png">
+
+		<h2>Part 2</h2>
+		<p>
+			When <code>ks</code> is low, the cloth is more elastic; it stretches more and hangs lower at its
+			resting state. When <code>ks</code> is high, the cloth falls much more rigidly, as if the cloth
+			was made of a more stiff material.
+		</p>
+		<p>ks = 1000 N/m</p>
+		<img src="part2/pinned2_ks_1000.png">
+		<p>ks = 5000 N/m</p>
+		<img src="part2/pinned2_ks_5000.png">
+		<p>ks = 25000 N/m</p>
+		<img src="part2/pinned2_ks_25000.png">
+
+		<p>
+			The density of the cloth also affects how the cloth falls. When density is low, the cloth is lighter
+			and does not hang as low at rest. When density is high, the cloth appears heavier and hangs lower in
+			its resting state.
+		</p>
+		<p>density = 3 g/cm^2</p>
+		<img src="part2/pinned2_density_3.png">
+		<p>density = 15 g/cm^2</p>
+		<img src="part2/pinned2_density_15.png">
+		<p>density = 50 g/cm^2</p>
+		<img src="part2/pinned2_density_50.png">
+
+		<p>
+			Damping as an effect on how quickly or slowly the cloth falls. When damping is low, the cloth swings
+			around much more freely and oscillates more before reaching a resting state. When damping is high, the
+			cloth falls more slowly and faces more resistance as it falls; thus, it does not move around as much.
+			The screenshot below shows the cloth in motion when the damping is 0, where the cloth keeps swinging
+			back and forth and never reaching a resting state.
+		</p>
+		<img src="part2/pinned2_damping_0.png">
+
+		<p>
+			Finally, below is a screenshot of pinned4.json.
+		</p>
+		<img src="part2/pinned4.png">
+
+		<h2>Part 3</h2>
+		
+		<p>Below image is sphere.json rendered with ks = 500:</p>
+		<img src="part_3/ks=500.png">
+
+		<p>Below image is sphere.json rendered with ks = 5000:</p>
+		<img src="part_3/ks=5000.png">
+
+		<p>Below image is sphere.json rendered with ks = 50000:</p>
+		<img src="part_3/ks=50000.png">
+
+		<p>
+			For the sphere with different ks. The lower the ks value, the more downwardly draped the cloth is. 
+			It feels like the cloth is very loose. At higher ks values, the cloth is draped down less and there 
+			is more structural integrity holding the cloth up.
+		</p>
+
+		<p>Below is a rendering of a shaded cloth lying peacefully at rest on the plane:</p>
+		<img src="part_3/shaded_cloth.png">
+
+		<h2>Part 4</h2>
+		<p>
+			Below are three screenshots of the cloth falling and folding on itself, using the default parameters.
+		</p>
+		<img src="part4/selfCollision_1.png">
+		<img src="part4/selfCollision_2.png">
+		<img src="part4/selfCollision_3.png">
+		<p>
+			At low densities, the cloth appears to be more flexible and flatten out, similar to paper.
+			When density is increased, the cloth is more likely to fold on itself like a blanket.
+		</p>
+		<p>density = 3 g/cm^2</p>
+		<img src="part4/selfCollision_density_3.png">
+		<p>density = 30 g/cm^2</p>
+		<img src="part4/selfCollision_density_30.png">
+		<p>
+			The spring constant <code>ks</code> also has an effect on how the cloth appears to fold on itself.
+			When the spring constant is low, the cloth compresses on itself more, appearing more flat despite
+			folding on itself more often. When the spring constant is high, the cloth is more rigid and tends
+			to unfurl itself after it has fallen on the ground.
+		</p>
+		<p>ks = 2500 N/m</p>
+		<img src="part4/selfCollision_ks_2500.png">
+		<p>ks = 25000 N/m</p>
+		<img src="part4/selfCollision_ks_25000.png">
+
+		<h2>Part 5</h2>
+		<p>
+			A shader program runs parts of the graphics pipeline, and outputs a 4-dimension vector for each pixel detailing 
+			the color / texture. For the purpose of this project, we are looking at vertex shaders and fragment shaders. A 
+			vertex shader modifies the positions of the vertices through transformations, displacements, etc and calculates 
+			the normal, the tangent, and other values for the vertices. A fragment shader uses the information calculated in
+			the vertex shader to decide a color for the rasterized fragment.
+		</p>
+		<p>
+			The Blinn-Phong shading model determines the color of a point through ambient lighting, diffuse reflection, and
+			specular reflection. Ambient lighting refers to the color of an object that is not under any direct light (but
+			still shows color due to ambient light bouncing around the scene). Diffuse reflection refers to the color seen
+			in objects under a light source. Specular reflection refers to a shiny glare when light hits at exactly the right
+			angle for the camera to see. All three components of illuminance are added up to create a color that is rendered
+			at that point.
+		</p>
+		<p>Ambient component</p>
+		<img src="part5/phong_ambient.png">
+		<p>Diffuse component</p>
+		<img src="part5/phong_diffuse.png">
+		<p>Specular component</p>
+		<img src="part5/phong_specular.png">
+		<p>All components (the entire Blinn-Phong model)</p>
+		<img src="part5/phong_all.png">
+
+		<p>
+			A screenshot of the texture mapping shader, using our own custom texture, is shown below.
+		</p>
+		<img src="part5/custom_texture.png">
+
+		<p>
+			A screenshot of bump mapping shader on cloth on the sphere with height = 1.
+		</p>
+		<img src="part5/bump.png">
+
+		<p>
+			A screenshot of displacement mapping shader on cloth on the sphere with height = 0.05.
+		</p>
+		<img src="part5/displacement.png">
+
+		<p>
+			Below is an image of a mirror shader on the cloth on the sphere.
+		</p>
+		<img src="part5/mirror.png">
 	</body>
 </html>
